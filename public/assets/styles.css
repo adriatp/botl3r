@@ -1,0 +1,257 @@
+/*
+    Twitch Chat Styles
+    Credits to:
+    - ciw1c
+    - CodeSectarian *quack* *quack*
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500&display=swap');
+
+@font-face {
+    font-family: comic-neue;
+    src: url(fonts/comic_neue.otf);
+}
+
+@font-face {
+    font-family: franklin-gothic;
+    src: url(fonts/franklin_gothic.ttf);
+}
+
+@font-face {
+    font-family: impacted;
+    src: url(fonts/impacted.ttf);
+}
+
+@font-face {
+    font-family: super_impacto;
+    src: url(fonts/super_impacto.otf);
+}
+
+@keyframes moveToLeft {
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: -100% 0%;
+    }
+}
+
+@keyframes moveToRight {
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: 100% 0%;
+    }
+}
+
+.fade-out {
+    opacity: 1;
+    transition: opacity 2s ease-out;
+}
+
+.fade-out.hidden {
+    opacity: 0;
+}
+
+body {
+    margin: 0;
+}
+
+#chat_container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 480px;
+    height: 660px;
+    /* border-bottom: 5px solid #05bb80; */
+    background-color: #03101b;
+    background-image: url(images/toy_ciwic_to_left.png);
+    background-repeat: repeat;
+    background-size: 50%;
+    animation: moveToLeft 20s linear infinite;
+    /* Bottom to top */
+    display: flex;
+    flex-direction: column-reverse;
+    padding-bottom: 10px;
+}
+
+.message-avatar {
+    width: 100%;
+    border-radius: 100%;
+}
+
+.message-container {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    border-radius: 8px;
+    border: 3px solid #05bb80;
+    background-color: rgba(3, 16, 27, 0.9);
+    box-shadow: 0 0 10px 2px #05bb80;
+}
+
+.left-container {
+    width: 20%;
+    padding: 10px;
+}
+
+.image-container {
+    border-radius: 100%;
+    height: 75px;
+    width: 75px;;
+}
+
+.right-container {
+    width: 80%;
+}
+
+.message-name {
+    font-family: franklin-gothic;
+    font-size: 19px;
+    text-align: right;
+    color: #05bb80;
+    padding-top: 15px;
+    padding-right: 15px;
+}
+
+.message-text {
+    font-family: comic-neue;
+    font-size: 20px;
+    text-align: right;
+    color: white;
+    float: right;   
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    overflow-wrap: break-word;
+    max-width: 90%;
+}
+
+.marquee {
+    width: 1440px;
+    height: 50px;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    overflow-x: hidden;
+    background-color: #03101b;
+}
+
+@keyframes marquee {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-600%); }
+}
+  
+.marquee p {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    line-height: 50px;
+    text-align: center;
+    transform: translateX(100%);
+    animation: marquee 60s linear infinite;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.marquee-tag {
+    padding-right: 80px;
+}
+
+#marquee_text {
+    position:absolute;
+    bottom:0;
+}
+
+.emote-fragment {
+    display: inline;
+    position: relative;
+    vertical-align: middle;
+}
+
+.twitch-emote {
+    max-height: 32px;
+    max-width: 64px;
+}
+
+.modified-emote {
+    max-height: 32px;
+}
+
+.overlap {
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+}
+
+.text-fragment {
+    line-height: 30px;
+}
+
+.text-fragment img {
+    vertical-align: middle;
+    max-width: 30px;
+    max-height: 30px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+.text-fragment + .emote-fragment {
+    margin-left: 10px;
+}
+
+.emote-fragment + .text-fragment {
+    margin-left: 10px;
+}
+
+.white {
+    color: white;
+}
+
+.green {
+    color: #05bb80;
+}
+
+.blue {
+    color: #0d2c40;
+}
+
+.dark-blue {
+    color: #03101b;
+}
+
+.mayus {
+    text-transform: uppercase;
+}
+
+#notification_message {
+    position: absolute;
+    background-color: #03101b;
+    border: #05bb80 solid 1px;
+    border-radius: 10px;
+    height: 100px;
+    width: 250px;
+    top: 500px;
+    left: 600px;
+    border: none;
+    box-shadow: 0 0 0px #fff, 0 0 20px #05bb80;
+    color: white;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 30px;
+    font-weight: 700;    
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease, visibility 2s ease;
+}
+
+#notification_message.show {
+    opacity: 1;
+    visibility: visible;
+}

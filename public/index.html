@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=1920, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.0/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@2.0.16/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script> 
+  <script src="jquery/jquery_3_6_1.min.js"></script>
+  <script src="emotes.js"></script>
+  <script src="scripts.js"></script>
+</head>
+<body>
+  <div id="chat_container" style="overflow:hidden;"></div>
+  <div id="notification_message"></div>
+  <div class="marquee">
+    <p id="marquee_text" class="mayus">
+      <span class="marquee-tag">
+        <span class="green">FOLLOW</span>
+        <span id="marquee_last_follow" class="white">?</span>
+      </span>
+      <span class="marquee-tag">
+        <span class="green">FIRST SUB</span>
+        <span id="marquee_last_1st_sub" class="white">?</span>
+      </span>
+      <span class="marquee-tag">
+        <span class="green">RESUB</span>
+        <span id="marquee_last_resub" class="white">?</span>
+      </span>
+      <span class="marquee-tag">
+        <span class="green">BITS</span>
+        <span id="marquee_last_bits" class="white">?</span>
+      </span>
+      <span class="marquee-tag">
+        <span class="green">GIFTS</span>
+        <span id="marquee_last_gifts" class="white">?</span>
+      </span>
+      <span class="marquee-tag">
+        <span class="green">RAID</span>
+        <span id="marquee_last_raid" class="white">?</span>
+      </span>
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+ansible_user: "ciw1c"
+dest_path: "~/apps/botl3r"
+git_repo: "https://github.com/ciw1c/BOTL3R.git"

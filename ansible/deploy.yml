@@ -1,0 +1,84 @@
+---
+- name: Deploy Node.js application with PM2
+  hosts: deploy_servers
+  become: yes
+  vars_files:
+    - vars.yml
+
+  vars:
+    project_path: /var/www/{{ project_name }}
+    git_repo: git@github.com:ciw1c/BOTL3R.git
+
+  tasks:
+  - name: Set some variable
+    become_user: "{{ ansible_user }}"
+    set_fact:
+      release_path: "/releases/{{ ansible_date_time.iso8601_basic_short }}"
+      current_path: "/current"
+
+  - name: Retrieve current release folder
+    become_user: "{{ ansible_user }}"
+    command: readlink -f current
+    register: current_release_path
+    ignore_errors: yes
+    args:
+      chdir: "{{ project_path }}"
+
+  - name: Create new folder
+    become_user: "{{ ansible_user }}"
+    file:
+      dest="{{ project_path }}{{ release_path }}"
+      mode=0755
+      recurse=yes
+      state=directory
+
+  - name: Clone the repository
+    become_user: "{{ ansible_user }}"
+    git:
+      repo: "{{ git_repo }}"
+      dest: "{{ project_path }}{{ release_path }}"
+      version: "{{ branch_name }}"
+      accept_hostkey: yes
+      key_file: "/home/{{ ansible_user }}/.ssh/id_{{ github_username }}"
+      force: yes
+
+  - name: Update npm
+    become_user: "{{ ansible_user }}"
+    npm:
+      path="{{ project_path }}{{ release_path }}"
+
+  - name: Update symlink
+    become_user: "{{ ansible_user }}"
+    file:
+      src="{{ project_path }}{{ release_path }}"
+      dest="{{ project_path }}{{ current_path }}"
+      state=link
+
+  - name: Copy credentials to remote server
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      remote_src: false
+    become_user: "{{ ansible_user }}"
+    with_items:
+      - { src: "{{ playbook_dir }}/../.env", dest: "{{ project_path }}{{ release_path }}/.env" }
+      - { src: "{{ playbook_dir }}/hosts", dest: "{{ project_path }}{{ release_path }}/ansible/hosts" }
+      - { src: "{{ playbook_dir }}/vars.yml", dest: "{{ project_path }}{{ release_path }}/ansible/vars.yml" }
+      - { src: "{{ playbook_dir }}/../.tokens.json", dest: "{{ project_path }}{{ release_path }}/.tokens.json" }
+
+  - name: Delete old pm2 process
+    become_user: "{{ ansible_user }}"
+    command: pm2 delete {{ project_name }}
+    ignore_errors: yes
+
+  - name: Set node version interpreter
+    become_user: "{{ ansible_user }}"
+    command: nvm use
+    args:
+      chdir: "{{ project_path }}{{ current_path }}"
+
+  - name: Start pm2
+    become_user: "{{ ansible_user }}"
+    command: npm run pm2
+    args:
+      chdir: "{{ project_path }}{{ release_path }}"
